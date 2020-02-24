@@ -37,3 +37,9 @@ func (c *AWXCommunicator) DoRequest(endpointURL string) string {
 	return string(data)
 
 }
+
+//InventoriesRequest - Create request to AWX
+func (c *AWXCommunicator) InventoriesRequest() string {
+
+	return (c.DoRequest("/inventories"))
+}
