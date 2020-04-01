@@ -1,6 +1,7 @@
 package awxcommunicator
 
 import (
+	"crypto/tls"
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
@@ -26,7 +27,16 @@ func (c *AWXCommunicator) DoRequest(endpointURL string) string {
 	request.Header.Set("Content-Type", "application/json")
 	request.Header.Set("Authorization", "Basic "+c.basicAuth(c.Username, c.Password))
 
-	client := &http.Client{}
+	// Pro test vypnuta kontrola certifikatu !!!
+	client := &http.Client{
+
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{
+				InsecureSkipVerify: true,
+			},
+		},
+	}
+
 	response, err := client.Do(request)
 	if err != nil {
 		fmt.Printf("The HTTP request failed with error %s\n", err)
@@ -36,10 +46,4 @@ func (c *AWXCommunicator) DoRequest(endpointURL string) string {
 	data, _ := ioutil.ReadAll(response.Body)
 	return string(data)
 
-}
-
-//InventoriesRequest - Create request to AWX
-func (c *AWXCommunicator) InventoriesRequest() string {
-
-	return (c.DoRequest("/inventories"))
 }

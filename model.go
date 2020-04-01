@@ -160,7 +160,7 @@ type (
 		} `json:"results"`
 	}
 
-	//Host
+	//Host - http://localhost/api/v2/hosts/3/
 	Host struct {
 		ID      int    `json:"id"`
 		Type    string `json:"type"`
